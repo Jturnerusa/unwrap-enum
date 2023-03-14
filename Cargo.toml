@@ -1,0 +1,9 @@
+[package]
+name = "unwrap-enum"
+version = "0.0.0"
+edition = "2021"
+
+[dependencies]
+syn = "1.0.109"
+quote = "1.0.23"
+proc-macro2 = "1.0.51"
