@@ -18,7 +18,7 @@ pub(crate) fn expand(target: &DataEnum) -> TokenStream {
 fn expand_method(variant: &Variant) -> TokenStream {
     let variant_ident = &variant.ident;
     let method_name = format_ident!("is_{}", variant_ident.to_string().to_ascii_lowercase());
-    let wildcard = expand_wildcard(variant.clone().fields);
+    let wildcard = expand_wildcard(&variant.fields);
     quote! {
         pub fn #method_name (&self) -> bool {
             matches!(self, Self::#variant_ident #wildcard)

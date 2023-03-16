@@ -34,7 +34,7 @@ pub(crate) mod common {
         }
     }
 
-    pub fn expand_wildcard(fields: Fields) -> TokenStream {
+    pub fn expand_wildcard(fields: &Fields) -> TokenStream {
         match fields {
             Fields::Unnamed(_) => quote! { (..) },
             Fields::Named(_) => quote! { {..} },
@@ -42,7 +42,7 @@ pub(crate) mod common {
         }
     }
 
-    pub fn expand_destructure(fields: Fields) -> TokenStream {
+    pub fn expand_destructure(fields: &Fields) -> TokenStream {
         match fields {
             Fields::Unnamed(_) => {
                 let bindings = (0..fields.len()).map(|i| format!("unwrap_enum_binding_{i}"));
@@ -60,7 +60,7 @@ pub(crate) mod common {
         }
     }
 
-    pub fn expand_method_return_types(fields: Fields) -> TokenStream {
+    pub fn expand_method_return_type(fields: &Fields) -> TokenStream {
         let types = fields.iter().cloned().map(|f| f.ty);
         quote! {
             (#(#types),*)
