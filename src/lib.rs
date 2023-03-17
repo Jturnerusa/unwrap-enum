@@ -1,6 +1,7 @@
 #![allow(dead_code)]
 
 mod enum_as;
+mod enum_into;
 mod enum_is;
 
 #[proc_macro_derive(EnumIs)]
@@ -23,6 +24,14 @@ pub fn enum_as(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 pub fn enum_as_mut(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = syn::parse_macro_input!(input as syn::DeriveInput);
     let methods = enum_as::expand(common::input_as_enum(&input), true);
+    let expanded_impl = common::expand_impl(input, methods);
+    expanded_impl.into()
+}
+
+#[proc_macro_derive(EnumInto)]
+pub fn enum_into(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
+    let input = syn::parse_macro_input!(input as syn::DeriveInput);
+    let methods = enum_into::expand(common::input_as_enum(&input));
     let expanded_impl = common::expand_impl(input, methods);
     expanded_impl.into()
 }
