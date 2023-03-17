@@ -1,12 +1,12 @@
 #![allow(dead_code)]
 
-mod unwrap_as;
-mod unwrap_is;
+mod enum_as;
+mod enum_is;
 
 #[proc_macro_derive(EnumIs)]
 pub fn enum_is(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = syn::parse_macro_input!(input as syn::DeriveInput);
-    let methods = unwrap_is::expand(common::input_as_enum(&input));
+    let methods = enum_is::expand(common::input_as_enum(&input));
     let expanded_impl = common::expand_impl(input, methods);
     expanded_impl.into()
 }
@@ -14,7 +14,7 @@ pub fn enum_is(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 #[proc_macro_derive(EnumAs)]
 pub fn enum_as(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = syn::parse_macro_input!(input as syn::DeriveInput);
-    let methods = unwrap_as::expand(common::input_as_enum(&input), false);
+    let methods = enum_as::expand(common::input_as_enum(&input), false);
     let expanded_impl = common::expand_impl(input, methods);
     expanded_impl.into()
 }
@@ -22,7 +22,7 @@ pub fn enum_as(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 #[proc_macro_derive(EnumAsMut)]
 pub fn enum_as_mut(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = syn::parse_macro_input!(input as syn::DeriveInput);
-    let methods = unwrap_as::expand(common::input_as_enum(&input), true);
+    let methods = enum_as::expand(common::input_as_enum(&input), true);
     let expanded_impl = common::expand_impl(input, methods);
     expanded_impl.into()
 }
