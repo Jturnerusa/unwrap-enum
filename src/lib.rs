@@ -32,10 +32,10 @@ pub(crate) mod common {
     use quote::{format_ident, quote};
     use syn::{Data, DataEnum, DeriveInput, Fields, Ident, Lifetime, Type};
 
-    pub enum Ownership {
+    pub enum Ownership<'a> {
         Owned,
-        Borrowed(Option<Lifetime>),
-        MutBorrowed(Option<Lifetime>),
+        Borrowed(Option<&'a Lifetime>),
+        MutBorrowed(Option<&'a Lifetime>),
     }
 
     pub fn expand_impl(input: DeriveInput, methods: TokenStream) -> TokenStream {
