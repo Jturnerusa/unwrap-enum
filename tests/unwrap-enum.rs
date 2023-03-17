@@ -1,40 +1,33 @@
 #![allow(dead_code)]
 
-use unwrap_enum::{EnumAs, EnumIs};
+use unwrap_enum::{EnumAs, EnumAsMut, EnumInto, EnumIs};
 
-#[derive(EnumIs, EnumAs)]
+#[derive(Debug, Clone, Copy, EnumIs, EnumAs, EnumAsMut, EnumInto)]
 enum Shape {
     Rect { height: usize, length: usize },
     Line(usize),
     Dot,
 }
 
-#[derive(EnumIs, EnumAs)]
+// This isn't used in tests below, it's used to make sure the macros don't conflict with
+// the generic lifetimes in the definition.
+
+#[derive(Debug, Clone, Copy, EnumIs, EnumAs, EnumAsMut, EnumInto)]
 enum Event<'a> {
     Clicked(&'a Shape),
     Moved(&'a Shape, (usize, usize)),
 }
 
 #[test]
-fn test_enum_is() {
-    let rect = Shape::Rect {
-        length: 1,
-        height: 1,
+fn unwrap_enum() {
+    let mut rect = Shape::Rect {
+        height: 682,
+        length: 671,
     };
-    let line = Shape::Line(1);
+    let line = Shape::Line(285);
     let dot = Shape::Dot;
-    assert!(rect.is_rect());
-    assert!(line.is_line());
-    assert!(dot.is_dot());
-}
-
-#[test]
-fn test_enum_as() {
-    let rect = Shape::Rect {
-        length: 1,
-        height: 1,
-    };
-    let line = Shape::Line(1);
-    assert!(matches!(rect.as_rect(), Some((1, 1))));
-    assert!(matches!(line.as_line(), Some(1)));
+    assert!(rect.is_rect() && line.is_line() && dot.is_dot());
+    *rect.as_mut_rect().unwrap().0 = 907;
+    assert!(matches!(rect.as_rect(), Some((907, 671))));
+    assert!(matches!(line.as_line(), Some(285)));
 }
