@@ -92,7 +92,7 @@ pub(crate) mod common {
         }
     }
 
-    pub fn expand_fields_types_to_tuple(fields: &Fields, ownership: &Ownership) -> TokenStream {
+    pub fn expand_fields_types_to_tuple(fields: &Fields, ownership: Ownership) -> TokenStream {
         let ownership_tokens = match ownership {
             Ownership::Owned => quote! {},
             Ownership::Borrowed(lifetime) => quote! { & #lifetime },
