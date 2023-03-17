@@ -27,9 +27,9 @@ pub(crate) mod common {
         }
     }
 
-    pub fn input_as_enum(input: &DeriveInput) -> DataEnum {
+    pub fn input_as_enum(input: &DeriveInput) -> &DataEnum {
         match &input.data {
-            Data::Enum(e) => e.clone(),
+            Data::Enum(e) => e,
             _ => panic!("derive input is not an enum"),
         }
     }
