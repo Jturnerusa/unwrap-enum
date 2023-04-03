@@ -23,10 +23,10 @@ pub fn expand_method(variant: &Variant) -> TokenStream {
     let (destructure, bindings) = common::expand_destructure(&variant.fields);
     let bindings_expression = common::expand_destructuring_bindings(bindings.as_slice());
     quote! {
-        pub fn #method_name (self) -> Option< #method_type > {
+        pub fn #method_name (self) -> ::std::option::Option< #method_type > {
             match self {
-                Self:: #variant_ident #destructure => Some( #bindings_expression ),
-                _ => None
+                Self:: #variant_ident #destructure => ::std::option::Option::Some( #bindings_expression ),
+                _ => ::std::option::Option::None
             }
         }
     }

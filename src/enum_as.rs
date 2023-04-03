@@ -40,9 +40,11 @@ fn expand_method(variant: &Variant, mutable: bool) -> TokenStream {
         )
     };
     quote! {
-        pub fn #method_name < #lifetime > (& #lifetime #mut_token self  ) -> Option< #method_type > {
+        pub fn #method_name < #lifetime > (& #lifetime #mut_token self  )
+        -> ::std::option::Option< #method_type >
+        {
             match self {
-                Self:: #variant_ident #destructure => Some( #bindings_expression ),
+                Self:: #variant_ident #destructure => ::std::option::Option::Some( #bindings_expression ),
                 _ => None
             }
         }
