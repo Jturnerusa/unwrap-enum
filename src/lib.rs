@@ -1,5 +1,3 @@
-#![allow(dead_code)]
-
 mod enum_as;
 mod enum_into;
 mod enum_is;
