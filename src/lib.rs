@@ -51,6 +51,7 @@ pub(crate) mod common {
         let t = input.ident;
         let (impl_generics, type_generics, where_generics) = input.generics.split_for_impl();
         quote! {
+            #[automatically_derived]
             impl #impl_generics #t #type_generics
             #where_generics
             {
