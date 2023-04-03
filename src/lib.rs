@@ -1,3 +1,4 @@
+#![deny(clippy::pedantic, clippy::use_self)]
 mod enum_as;
 mod enum_into;
 mod enum_is;
@@ -6,7 +7,7 @@ mod enum_is;
 pub fn enum_is(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = syn::parse_macro_input!(input as syn::DeriveInput);
     let methods = enum_is::expand(common::input_as_enum(&input));
-    let expanded_impl = common::expand_impl(input, methods);
+    let expanded_impl = common::expand_impl(&input, &methods);
     expanded_impl.into()
 }
 
@@ -14,7 +15,7 @@ pub fn enum_is(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 pub fn enum_as(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = syn::parse_macro_input!(input as syn::DeriveInput);
     let methods = enum_as::expand(common::input_as_enum(&input), false);
-    let expanded_impl = common::expand_impl(input, methods);
+    let expanded_impl = common::expand_impl(&input, &methods);
     expanded_impl.into()
 }
 
@@ -22,7 +23,7 @@ pub fn enum_as(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 pub fn enum_as_mut(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = syn::parse_macro_input!(input as syn::DeriveInput);
     let methods = enum_as::expand(common::input_as_enum(&input), true);
-    let expanded_impl = common::expand_impl(input, methods);
+    let expanded_impl = common::expand_impl(&input, &methods);
     expanded_impl.into()
 }
 
@@ -30,7 +31,7 @@ pub fn enum_as_mut(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 pub fn enum_into(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     let input = syn::parse_macro_input!(input as syn::DeriveInput);
     let methods = enum_into::expand(common::input_as_enum(&input));
-    let expanded_impl = common::expand_impl(input, methods);
+    let expanded_impl = common::expand_impl(&input, &methods);
     expanded_impl.into()
 }
 
@@ -45,9 +46,9 @@ pub(crate) mod common {
         MutBorrowed(Option<&'a Lifetime>),
     }
 
-    pub fn expand_impl(input: DeriveInput, methods: TokenStream) -> TokenStream {
-        let t = input.ident;
-        let (impl_generics, type_generics, where_generics) = input.generics.split_for_impl();
+    pub fn expand_impl(input: &DeriveInput, methods: &TokenStream) -> TokenStream {
+        let t = &input.ident;
+        let (impl_generics, type_generics, where_generics) = &input.generics.split_for_impl();
         quote! {
             #[automatically_derived]
             impl #impl_generics #t #type_generics
@@ -96,11 +97,11 @@ pub(crate) mod common {
                 };
                 (tokens, bindings)
             }
-            _ => panic!("Can't destructure a unit variant"),
+            Fields::Unit => panic!("Can't destructure a unit variant"),
         }
     }
 
-    pub fn expand_fields_types_to_tuple(fields: &Fields, ownership: Ownership) -> TokenStream {
+    pub fn expand_fields_types_to_tuple(fields: &Fields, ownership: &Ownership) -> TokenStream {
         let ownership_tokens = match ownership {
             Ownership::Owned => quote! {},
             Ownership::Borrowed(lifetime) => quote! { & #lifetime },

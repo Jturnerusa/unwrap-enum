@@ -10,7 +10,7 @@ pub fn expand(target: &DataEnum) -> TokenStream {
         .iter()
         .filter(|v| !matches!(v.fields, Fields::Unit))
     {
-        tokens.extend(expand_method(variant))
+        tokens.extend(expand_method(variant));
     }
     tokens
 }
@@ -18,7 +18,7 @@ pub fn expand(target: &DataEnum) -> TokenStream {
 pub fn expand_method(variant: &Variant) -> TokenStream {
     let method_name = format_ident!("into_{}", variant.ident.to_string().to_lowercase());
     let method_type =
-        common::expand_fields_types_to_tuple(&variant.fields, common::Ownership::Owned);
+        common::expand_fields_types_to_tuple(&variant.fields, &common::Ownership::Owned);
     let variant_ident = &variant.ident;
     let (destructure, bindings) = common::expand_destructure(&variant.fields);
     let bindings_expression = common::expand_destructuring_bindings(bindings.as_slice());

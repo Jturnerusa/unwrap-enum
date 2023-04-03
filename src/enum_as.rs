@@ -25,7 +25,7 @@ fn expand_method(variant: &Variant, mutable: bool) -> TokenStream {
             format_ident!("as_mut_{}", variant.ident.to_string().to_lowercase()),
             common::expand_fields_types_to_tuple(
                 &variant.fields,
-                Ownership::MutBorrowed(Some(&lifetime)),
+                &Ownership::MutBorrowed(Some(&lifetime)),
             ),
             quote! { mut },
         )
@@ -34,7 +34,7 @@ fn expand_method(variant: &Variant, mutable: bool) -> TokenStream {
             format_ident!("as_{}", variant.ident.to_string().to_lowercase()),
             common::expand_fields_types_to_tuple(
                 &variant.fields,
-                Ownership::Borrowed(Some(&lifetime)),
+                &Ownership::Borrowed(Some(&lifetime)),
             ),
             quote! {},
         )
