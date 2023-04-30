@@ -24,6 +24,3 @@ pub fn enum_as_mut(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
 pub fn enum_into(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     todo!()
 }
-
-#[allow(dead_code)]
-pub(crate) mod common {}
