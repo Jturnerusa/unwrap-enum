@@ -8,5 +8,6 @@ proc-macro = true
 
 [dependencies]
 quasiquote = { path = "../quasiquote" }
+quote = "1"
 syn = "2"
 proc-macro2 = "1"
