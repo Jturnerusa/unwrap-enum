@@ -12,10 +12,13 @@ pub fn enum_is(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
     }
 }
 
-#[allow(unused_variables)]
 #[proc_macro_derive(EnumAs)]
 pub fn enum_as(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    todo!()
+    let parsed_input = syn::parse_macro_input!(input as syn::DeriveInput);
+    match unwrap_enum::expand_enum_as(&parsed_input, false) {
+        Ok(output) => output.into(),
+        Err(e) => e.into_compile_error().into(),
+    }
 }
 
 #[allow(unused_variables)]

@@ -1,4 +1,4 @@
-use unwrap_enum::EnumIs;
+use unwrap_enum::{EnumAs, EnumIs};
 
 macro_rules! is {
     ($a:expr, $($method:ident),+) => {
@@ -10,7 +10,7 @@ macro_rules! is {
 struct Key;
 
 #[allow(dead_code)]
-#[derive(Debug, Clone, EnumIs)]
+#[derive(Debug, Clone, EnumIs, EnumAs)]
 enum Event<'a, T = ()> {
     KeyPress(Key),
     MouseMove(u64, u64),
@@ -20,7 +20,7 @@ enum Event<'a, T = ()> {
 }
 
 #[test]
-fn unwrap_enum() {
+fn enum_is() {
     assert!({
         let event = Event::KeyPress::<()>(Key);
         event.is_keypress() && !is!(event, is_mousemove, is_message, is_other, is_quit)
@@ -40,5 +40,37 @@ fn unwrap_enum() {
     assert!({
         let event = Event::Quit::<()>;
         event.is_quit() && !is!(event, is_keypress, is_message, is_mousemove, is_other)
+    });
+}
+
+#[test]
+fn enum_as() {
+    assert!({
+        let event = Event::KeyPress::<()>(Key);
+        matches!(event.as_keypress(), Some(Key))
+            && event.as_mousemove().is_none()
+            && event.as_message().is_none()
+            && event.as_other().is_none()
+    });
+    assert!({
+        let event = Event::MouseMove::<()>(10, 11);
+        matches!(event.as_mousemove(), Some((10, 11)))
+            && event.as_keypress().is_none()
+            && event.as_message().is_none()
+            && event.as_other().is_none()
+    });
+    assert!({
+        let event = Event::Message::<()>("ferris");
+        matches!(event.as_message().copied(), Some("ferris"))
+            && event.as_keypress().is_none()
+            && event.as_mousemove().is_none()
+            && event.as_other().is_none()
+    });
+    assert!({
+        let event = Event::Other::<()>(());
+        matches!(event.as_other(), Some(()))
+            && event.as_keypress().is_none()
+            && event.as_mousemove().is_none()
+            && event.as_message().is_none()
     });
 }
