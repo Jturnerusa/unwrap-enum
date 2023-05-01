@@ -1,10 +1,15 @@
 #![deny(clippy::pedantic, clippy::use_self)]
 #![allow(clippy::missing_panics_doc)]
 
-#[allow(unused_variables)]
+mod unwrap_enum;
+
 #[proc_macro_derive(EnumIs)]
 pub fn enum_is(input: proc_macro::TokenStream) -> proc_macro::TokenStream {
-    todo!()
+    let parsed_input = syn::parse_macro_input!(input as syn::DeriveInput);
+    match unwrap_enum::expand_enum_is(&parsed_input) {
+        Ok(output) => output.into(),
+        Err(e) => e.into_compile_error().into(),
+    }
 }
 
 #[allow(unused_variables)]
