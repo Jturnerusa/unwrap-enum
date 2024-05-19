@@ -8,6 +8,7 @@ proc-macro2 = "1"
 
 [package]
 name = "unwrap-enum"
+description = "generate methods to access enum variants"
 version = "0.0.2"
 edition = "2021"
 authors = ["John Turner"]
