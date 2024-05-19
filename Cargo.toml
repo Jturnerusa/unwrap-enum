@@ -18,4 +18,4 @@ homepage = "https://github.com/Jturnerusa/unwrap-enum"
 keywords = ["macro", "quote"]
 
 [dependencies]
-unwrap-enum-proc-macro = { path = "unwrap-enum-proc-macro" }
+unwrap-enum-proc-macro = { path = "unwrap-enum-proc-macro", version = "0.0.2" }
