@@ -7,7 +7,7 @@ edition = "2021"
 proc-macro = true
 
 [dependencies]
-quasiquote = { path = "../quasiquote" }
+quasiquote = "=0.0.1"
 quote = "1"
 syn = "2"
 proc-macro2 = "1"
