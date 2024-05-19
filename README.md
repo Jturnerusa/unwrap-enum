@@ -23,6 +23,7 @@ fn foo() {
         None
     ));
 }
+```
 
 ## Todo
 Implement EnumAsMut and EnumInto.
