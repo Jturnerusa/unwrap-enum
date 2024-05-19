@@ -1,29 +1,24 @@
-# Generate methods to access enum variants.
+# unwrap-enum
+A crate to generate methods to unwrap enums as certain variants, like `is_none`
+and `is_none` on `Option`.
 
-## Examples
+# Example
 ```rust
+use unwrap_enum::{EnumAs, EnumIs};
+
+#[derive(Clone, Debug, EnumAs, EnumIs)]
 enum Value {
     String(String),
-    Int(i64),
+    Int(i64)
 }
 
-fn foo() {
-    let val = Value::String("hello world".to_string());
+let value = Value::String("hello world".to_string());
 
-    assert!(val.is_string());
-    assert!(!val.is_int());
-    
-    assert!(matches!(
-        val.as_string(),
-        Some(Value::String(string) if string == "hello world")
-    ));
-    
-    assert!(matches!(
-        val.as_int(),
-        None
-    ));
-}
+assert!(value.is_string());
+assert!(!value.is_int());
+assert!(matches!(value.as_string(), Some(string) if string == "hello world"));
+assert!(matches!(value.as_int(), None));
 ```
 
-## Todo
-Implement EnumAsMut and EnumInto.
+# Todo
+Implement EnumAsMut and EnumInto derive macros.
