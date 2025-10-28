@@ -1,7 +1,7 @@
 [package]
 name = "unwrap-enum-proc-macro"
 description = "generate methods to access enum variants"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["John Turner"]
 license = "GPL-3.0-or-later"

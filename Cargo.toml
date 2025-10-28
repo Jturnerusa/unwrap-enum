@@ -9,7 +9,7 @@ proc-macro2 = "1"
 [package]
 name = "unwrap-enum"
 description = "generate methods to access enum variants"
-version = "0.1.0"
+version = "0.1.1"
 edition = "2021"
 authors = ["John Turner"]
 license = "GPL-3.0-or-later"
@@ -18,4 +18,4 @@ homepage = "https://github.com/Jturnerusa/unwrap-enum"
 keywords = ["macro", "quote"]
 
 [dependencies]
-unwrap-enum-proc-macro = { path = "unwrap-enum-proc-macro", version = "0.1.0" }
+unwrap-enum-proc-macro = { path = "unwrap-enum-proc-macro", version = "0.1.1" }
