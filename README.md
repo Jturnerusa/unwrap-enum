@@ -1,5 +1,5 @@
 # unwrap-enum
-A crate to generate methods to unwrap enums as certain variants, like `is_none`
+A crate to generate methods to unwrap enums as certain variants, like `is_some`
 and `is_none` on `Option`.
 
 # Example
