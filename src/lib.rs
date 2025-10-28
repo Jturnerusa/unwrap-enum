@@ -14,7 +14,7 @@
 // along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 //! # unwrap-enum
-//! A crate to generate methods to unwrap enums as certain variants, like `is_none`
+//! A crate to generate methods to unwrap enums as certain variants, like `is_sone`
 //! and `is_none` on `Option`.
 //!
 //! # Example
